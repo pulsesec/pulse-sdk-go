@@ -50,7 +50,7 @@ func TestClassify(t *testing.T) {
 			},
 		)
 
-		isBot, err := client.Classify("token")
+		isBot, err := client.Classify(testToken)
 		if err != nil {
 			t.Fatalf("Failed to classify token: %v", err)
 		}

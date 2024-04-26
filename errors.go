@@ -8,11 +8,13 @@ import (
 var (
 	ErrTokenNotFound = errors.New("user token not found")
 	ErrTokenUsed     = errors.New("user token already used")
+	ErrTokenExpired  = errors.New("user token expired")
 	ErrOther         = errors.New("user classification failed")
 
 	errorCodeMap = map[string]error{
 		"TOKEN_NOT_FOUND": ErrTokenNotFound,
 		"TOKEN_USED":      ErrTokenUsed,
+		"TOKEN_EXPIRED":   ErrTokenExpired,
 	}
 )
 
