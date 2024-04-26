@@ -1,6 +1,12 @@
 # Pulse Security - Go SDK
 
-## Example Usage
+## Installation
+
+```sh
+$ go get github.com/pulsesec/pulse-sdk-go
+```
+
+## Example
 
 ```go
 import (
@@ -8,7 +14,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/pulsesec/pulse-sdk-go"
+	pulse "github.com/pulsesec/pulse-sdk-go"
 )
 
 var (

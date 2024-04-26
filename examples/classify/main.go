@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/pulsesec/pulse-sdk-go"
+	pulse "github.com/pulsesec/pulse-sdk-go"
 )
 
 var (
