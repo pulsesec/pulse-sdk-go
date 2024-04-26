@@ -3,7 +3,12 @@ package pulse
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
+)
+
+var (
+	urlClassify = "https://api.pulsesecurity.org/api/classify"
 )
 
 type Client struct {
@@ -30,7 +35,7 @@ func (c *Client) Classify(token string) (bool, error) {
 		return false, err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, "https://api.pulsesecurity.org/api/classify", bytes.NewReader(payload))
+	req, err := http.NewRequest(http.MethodPost, urlClassify, bytes.NewReader(payload))
 	if err != nil {
 		return false, err
 	}
@@ -53,7 +58,11 @@ func (c *Client) Classify(token string) (bool, error) {
 		return false, err
 	}
 
-	return response.IsBot, nil
+	if response.IsBot == nil {
+		return false, fmt.Errorf("missing isBot field in response")
+	}
+
+	return *response.IsBot, nil
 }
 
 type classifyPayload struct {
@@ -64,5 +73,5 @@ type classifyPayload struct {
 
 type classifyResponse struct {
 	errorResponse
-	IsBot bool `json:"isBot"`
+	IsBot *bool `json:"isBot,omitempty"`
 }
