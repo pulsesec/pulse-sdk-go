@@ -2,36 +2,34 @@ package main
 
 import (
 	"errors"
-	"log"
 	"os"
 
 	pulse "github.com/pulsesec/pulse-sdk-go"
 )
 
 var (
-	PULSE_SITE_KEY   = os.Getenv("PULSE_SITE_KEY")
-	PULSE_SECRET_KEY = os.Getenv("PULSE_SECRET_KEY")
-
-	client = pulse.New(PULSE_SITE_KEY, PULSE_SECRET_KEY)
+	client = pulse.New(os.Getenv("PULSE_SITE_KEY"), os.Getenv("PULSE_SECRET_KEY"))
 )
 
-func classify(token string) {
+func classify(token string) bool {
 	isBot, err := client.Classify(token)
 	if err != nil {
 		if errors.Is(err, pulse.ErrTokenNotFound) {
-			log.Printf("Token %s not found", token)
-			return
+			panic("Token not found")
 		}
 
 		if errors.Is(err, pulse.ErrTokenUsed) {
-			log.Printf("Token %s already used", token)
-			return
+			panic("Token already used")
 		}
 
-		log.Panicf("Failed to classify token %s: %v", token, err)
+		if errors.Is(err, pulse.ErrTokenExpired) {
+			panic("Token expired")
+		}
+
+		panic(err)
 	}
 
-	log.Printf("Token %s is a bot: %t", token, isBot)
+	return isBot
 }
 
 var _ = classify
