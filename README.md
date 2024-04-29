@@ -20,8 +20,8 @@ var (
 	client = pulse.New(os.Getenv("PULSE_SITE_KEY"), os.Getenv("PULSE_SECRET_KEY"))
 )
 
-func classify(token string) bool {
-	isBot, err := client.Classify(token)
+func classify(ctx context.Context, token string) bool {
+	isBot, err := client.Classify(ctx, token)
 	if err != nil {
 		if errors.Is(err, pulse.ErrTokenNotFound) {
 			panic("Token not found")
@@ -47,7 +47,7 @@ func classify(token string) bool {
 - [Variables](#variables)
 - [type Client](#Client)
   - [func New\(siteKey, siteSecret string\) \*Client](#New)
-  - [func \(c \*Client\) Classify\(token string\) \(bool, error\)](#Client.Classify)
+  - [func \(c \*Client\) Classify\(ctx context.Context, token string\) \(bool, error\)](#Client.Classify)
 - [type Error](#Error)
   - [func \(e Error\) Error\(\) string](#Error.Error)
   - [func \(e Error\) Unwrap\(\) error](#Error.Unwrap)
@@ -88,7 +88,7 @@ func New(siteKey, siteSecret string) *Client
 ### func \(\*Client\) Classify
 
 ```go
-func (c *Client) Classify(token string) (bool, error)
+func (c *Client) Classify(ctx context.Context, token string) (bool, error)
 ```
 
 <a name="Error"></a>

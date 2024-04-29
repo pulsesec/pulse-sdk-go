@@ -1,6 +1,7 @@
 package pulse
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"testing"
@@ -50,7 +51,7 @@ func TestClassify(t *testing.T) {
 			},
 		)
 
-		isBot, err := client.Classify(testToken)
+		isBot, err := client.Classify(context.Background(), testToken)
 		if err != nil {
 			t.Fatalf("Failed to classify token: %v", err)
 		}

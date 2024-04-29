@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"os"
 
@@ -12,7 +13,7 @@ var (
 )
 
 func classify(token string) bool {
-	isBot, err := client.Classify(token)
+	isBot, err := client.Classify(context.Background(), token)
 	if err != nil {
 		if errors.Is(err, pulse.ErrTokenNotFound) {
 			panic("Token not found")

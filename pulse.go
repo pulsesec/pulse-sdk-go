@@ -2,6 +2,7 @@ package pulse
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -25,7 +26,7 @@ func New(siteKey, siteSecret string) *Client {
 	}
 }
 
-func (c *Client) Classify(token string) (bool, error) {
+func (c *Client) Classify(ctx context.Context, token string) (bool, error) {
 	payload, err := json.Marshal(&classifyPayload{
 		SiteKey:   c.siteKey,
 		SecretKey: c.siteSecret,
@@ -35,7 +36,7 @@ func (c *Client) Classify(token string) (bool, error) {
 		return false, err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, urlClassify, bytes.NewReader(payload))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, urlClassify, bytes.NewReader(payload))
 	if err != nil {
 		return false, err
 	}

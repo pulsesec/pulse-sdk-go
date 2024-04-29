@@ -1,6 +1,7 @@
 package pulse
 
 import (
+	"context"
 	"errors"
 	"net/http"
 	"testing"
@@ -53,7 +54,7 @@ func TestErrors(t *testing.T) {
 				},
 			)
 
-			_, err := client.Classify(testToken)
+			_, err := client.Classify(context.Background(), testToken)
 			if !errors.Is(err, e.Err) {
 				t.Errorf("Expected error %q, got %v", e.Err, err)
 			}
